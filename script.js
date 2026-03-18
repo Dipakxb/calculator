@@ -1,37 +1,24 @@
-const add = function(a, b) {
+window.add = function(a, b) {
     return a + b;
 };
 
-const subtract = function(a, b) {
+window.subtract = function(a, b) {
 	return a - b;
 };
 
-const sum = function(arr) {
-    if(arr.length === 0){
-        return 0;
-    }
-        return arr.reduce((Current, total) => {
-        return total += Current;
-    }, 0)
+window.multiply = function(a, b) {
+    return a * b;
 };
 
-const multiply = function(arr) {
-    return arr.reduce((Current, total) => {
-        return total *= Current;
-    }, 1)
+window.divide = function(a, b) {
+    return a / b;
 };
 
-const divide = function(arr) {
-    return arr.reduce((Current, total) => {
-        return total /= Current;
-    }, 1)
-};
-
-const power = function(base, exponent) {
+window.power = function(base, exponent) {
 	return base ** exponent;
 };
 
-const factorial = function(num) {
+window.factorial = function(num) {
     if(num == 0){
         return 1;
     }
@@ -41,4 +28,15 @@ const factorial = function(num) {
     return num;
 };
 
-const test = divide([2,1]);
+//operate takes 2 numbers and operator then calls the right function 
+const operate = function(operandOne, sym, operandTwo){
+    const operators = [["+", "add"], ["-", "subtract"], ["/", "divide"], ["*", "multiply"], ["**", "power"], ["!", "factorial"]];
+    for(let operator of operators){
+        if(operator[0] == sym){
+            return window[operator[1]](operandOne, operandTwo)
+        }
+    }
+    return
+}
+
+const test = operate(2,"/", 5);
