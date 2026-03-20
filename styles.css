@@ -1,0 +1,30 @@
+div.calculator {
+    margin: 15vh auto ;
+    border: 1px solid black;
+    width: 36vh;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+
+div.display {
+    border: 1px solid black;
+    width: 100%;
+    height: 40%;
+}
+
+div.keys {
+    border: 1px solid black;
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div.keys > div {
+    font-size: x-large;
+    text-align: center;
+    margin: auto;
+    /* border: 1px solid black; */
+    flex: 0 0 25%;
+}

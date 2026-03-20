@@ -39,4 +39,19 @@ const operate = function(operandOne, sym, operandTwo){
     return
 }
 
-const test = operate(2,"/", 5);
+
+const keys = document.querySelector('.keys');
+const keyArr = [['C','clear'], ['%', 'percent'], ["←", 'back'],
+                ['÷', 'divide'], 7, 8, 9, ['x', 'multiply'], 4, 5, 6, ['-', 'subtract'], 1, 2, 3, ['+', 'add'],
+                ['00', '00' ], 0, ['.', 'decimal'], ['=', 'equal']];
+for(let key of keyArr){
+    let button = document.createElement('div');
+    if(typeof(key) == 'object'){
+        button.className = `${key[1]}-button`
+        button.innerText = `${key[0]}`;
+    }else{
+        button.className = `button-${key}`
+        button.innerText = `${key}`;
+    }
+    keys.appendChild(button);
+}
