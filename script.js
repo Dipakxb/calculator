@@ -28,6 +28,10 @@ window.factorial = function(num) {
     return num;
 };
 
+let operandOne;
+let operator;
+let operandTwo;
+
 //operate takes 2 numbers and operator then calls the right function 
 const operate = function(operandOne, sym, operandTwo){
     const operators = [["+", "add"], ["-", "subtract"], ["/", "divide"], ["*", "multiply"], ["**", "power"], ["!", "factorial"]];
@@ -39,7 +43,7 @@ const operate = function(operandOne, sym, operandTwo){
     return
 }
 
-
+//keys for calculators
 const keys = document.querySelector('.keys');
 const keyArr = [['C','clear'], ['%', 'percent'], ["←", 'back'],
                 ['÷', 'divide'], 7, 8, 9, ['x', 'multiply'], 4, 5, 6, ['-', 'subtract'], 1, 2, 3, ['+', 'add'],
@@ -55,3 +59,14 @@ for(let key of keyArr){
     }
     keys.appendChild(button);
 }
+
+//function to update one of the number variable
+keys.addEventListener('click', (e)=> {
+    const nums = ['1','2','3','4','5','6','7','8','9','0','00'];
+    const keyValue = e.target.innerText;
+    
+    if(nums.includes(keyValue)){
+        operandOne = keyValue;
+        document.querySelector('.display').innerHTML= keyValue;
+    }
+})
