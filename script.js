@@ -28,9 +28,9 @@ window.factorial = function(num) {
     return num;
 };
 
-let operandOne;
+let operandOne = '';
 let operator;
-let operandTwo;
+let operandTwo = '';
 
 //operate takes 2 numbers and operator then calls the right function 
 const operate = function(operandOne, sym, operandTwo){
@@ -60,13 +60,26 @@ for(let key of keyArr){
     keys.appendChild(button);
 }
 
+let isOperatorPressed = false;
 //function to update one of the number variable
 keys.addEventListener('click', (e)=> {
     const nums = ['1','2','3','4','5','6','7','8','9','0','00'];
+    const operatorArr = ['+', '-', 'x', '/', '%'];
     const keyValue = e.target.innerText;
+    let display = document.querySelector('.display');
+
+    if(operatorArr.includes(keyValue)){
+        isOperatorPressed = true;
+        operator = keyValue;
+    }
     
     if(nums.includes(keyValue)){
-        operandOne = keyValue;
-        document.querySelector('.display').innerHTML= keyValue;
+        if(isOperatorPressed){
+            operandTwo += keyValue;
+        }else {
+            operandOne += keyValue;
+        }
     }
+
+    display.innerHTML += keyValue;
 })
