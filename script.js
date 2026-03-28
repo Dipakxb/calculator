@@ -1,32 +1,34 @@
-window.add = function(a, b) {
-    return a + b;
-};
+const calculator = {
+    add(a, b) {
+        return a + b;
+    },
 
-window.subtract = function(a, b) {
-	return a - b;
-};
+    subtract(a, b) {
+        return a - b;
+    },
 
-window.multiply = function(a, b) {
-    return a * b;
-};
+    multiply(a, b) {
+        return a * b;
+    },
 
-window.divide = function(a, b) {
-    return a / b;
-};
+    divide(a, b) {
+        return a / b;
+    },
 
-window.power = function(base, exponent) {
-	return base ** exponent;
-};
+    power(base, exponent) {
+        return base ** exponent;
+    },
 
-window.factorial = function(num) {
-    if(num == 0){
-        return 1;
+    factorial(num) {
+        if(num == 0){
+            return 1;
+        }
+            for(let i = num -1 ; i >= 1; i--) {
+            num = (num * i);
+        }
+        return num;
     }
-        for(let i = num -1 ; i >= 1; i--) {
-        num = (num * i);
-    }
-    return num;
-};
+}
 
 let operandOne = '';
 let operator = '';
@@ -37,7 +39,7 @@ const operate = function(operandOne, sym, operandTwo){
     const operators = [["+", "add"], ["-", "subtract"], ["÷", "divide"], ["×", "multiply"], ["**", "power"], ["!", "factorial"]];
     for(let operator of operators){
         if(operator[0] == sym){
-            return window[operator[1]](parseFloat(operandOne), parseFloat(operandTwo)).toFixed();
+            return calculator[operator[1]](parseFloat(operandOne), parseFloat(operandTwo)).toFixed();
         }
     }
     return '';
@@ -61,13 +63,14 @@ for(let key of keyArr){
 }
 
 let isOperatorPressed = false;
+const display = document.querySelector('.display');
 //function to update number variable
 keys.addEventListener('click', (e)=> {
     const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.'];
     const operatorArr = ['+', '-', '×', '÷', '%', '='];
     const keyValue = e.target.innerText;
-    let display = document.querySelector('.display');
-
+    
+    keyValue == 'C' ? clear() : '';
     if(operatorArr.includes(keyValue)){
         if(isOperatorPressed){
             if(operandTwo.length > 0){
@@ -76,16 +79,15 @@ keys.addEventListener('click', (e)=> {
                 keyValue == '=' ? isOperatorPressed = false : operator = keyValue;
             }
             display.innerText = operandOne;
-            operandOne = '';
         }
         if(operandOne.length > 0){
             isOperatorPressed = true;
             if(keyValue == '='){
                 isOperatorPressed = false;
             }else {
-                operator = keyValue; 
-                display.innerText += operator;
+                display.innerText += keyValue;
             }    
+            operator = keyValue;
         }
     }
     
@@ -94,8 +96,17 @@ keys.addEventListener('click', (e)=> {
             operandTwo += keyValue;
             display.innerText += keyValue;
         }else {
+            operator == '=' ? clear() : '';
             operandOne += keyValue;
             display.innerText += keyValue;
         }
     }
 })
+
+const clear = function(){
+    operandOne = '';
+    operator = '';
+    operandTwo = '';
+    display.innerText = '';
+    isOperatorPressed = false;
+}
