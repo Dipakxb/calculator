@@ -12,22 +12,8 @@ const calculator = {
     },
 
     divide(a, b) {
-        return a / b;
+        return b == 0 ? 'Nah! can\'t divide by Zero ' : a / b;
     },
-
-    power(base, exponent) {
-        return base ** exponent;
-    },
-
-    factorial(num) {
-        if(num == 0){
-            return 1;
-        }
-            for(let i = num -1 ; i >= 1; i--) {
-            num = (num * i);
-        }
-        return num;
-    }
 }
 
 let operandOne = '';
@@ -36,10 +22,10 @@ let operandTwo = '';
 
 //operate takes 2 numbers and operator then calls the right function 
 const operate = function(operandOne, sym, operandTwo){
-    const operators = [["+", "add"], ["-", "subtract"], ["÷", "divide"], ["×", "multiply"], ["**", "power"], ["!", "factorial"]];
+    const operators = [["+", "add"], ["-", "subtract"], ["÷", "divide"], ["×", "multiply"]];
     for(let operator of operators){
         if(operator[0] == sym){
-            return calculator[operator[1]](parseFloat(operandOne), parseFloat(operandTwo)).toFixed();
+            return calculator[operator[1]](parseFloat(operandOne), parseFloat(operandTwo));
         }
     }
     return '';
@@ -69,23 +55,24 @@ keys.addEventListener('click', (e)=> {
     const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.'];
     const operatorArr = ['+', '-', '×', '÷', '%', '='];
     const keyValue = e.target.innerText;
-    
+        
     keyValue == 'C' ? clear() : '';
     if(operatorArr.includes(keyValue)){
         if(isOperatorPressed){
             if(operandTwo.length > 0){
-                operandOne = operate(operandOne, operator, operandTwo);
+                const result = operate(operandOne, operator, operandTwo);
+                operandOne = Number.isInteger(result) || typeof(result) == 'string' ? `${result}` : result.toFixed(2)+ "..";
                 operandTwo = '';
                 keyValue == '=' ? isOperatorPressed = false : operator = keyValue;
             }
-            display.innerText = operandOne;
+            display.textContent = operandOne;
         }
         if(operandOne.length > 0){
             isOperatorPressed = true;
             if(keyValue == '='){
                 isOperatorPressed = false;
             }else {
-                display.innerText += keyValue;
+                display.textContent += ` ${keyValue} `;
             }    
             operator = keyValue;
         }
@@ -94,11 +81,11 @@ keys.addEventListener('click', (e)=> {
     if(nums.includes(keyValue)){
         if(isOperatorPressed){
             operandTwo += keyValue;
-            display.innerText += keyValue;
+            display.textContent += keyValue;
         }else {
             operator == '=' ? clear() : '';
             operandOne += keyValue;
-            display.innerText += keyValue;
+            display.textContent += keyValue;
         }
     }
 })
@@ -107,6 +94,6 @@ const clear = function(){
     operandOne = '';
     operator = '';
     operandTwo = '';
-    display.innerText = '';
+    display.textContent = '';
     isOperatorPressed = false;
 }
