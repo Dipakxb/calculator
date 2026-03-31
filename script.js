@@ -48,42 +48,44 @@ for(let key of keyArr){
     keys.appendChild(button);
 }
 
-let isOperatorPressed = false;
+let isOperatorClicked = false;
 const display = document.querySelector('.display');
 //function to update number variable
 keys.addEventListener('click', (e)=> {
-    const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.'];
-    const operatorArr = ['+', '-', '×', '÷', '%', '='];
+    const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.', '%'];
+    const operatorArr = ['+', '-', '×', '÷', '='];
     const keyValue = e.target.innerText;
-        
+
     keyValue == 'C' ? clear() : '';
     if(operatorArr.includes(keyValue)){
-        if(isOperatorPressed){
+        if(isOperatorClicked){
             if(operandTwo.length > 0){
                 const result = operate(operandOne, operator, operandTwo);
-                operandOne = Number.isInteger(result) || typeof(result) == 'string' ? `${result}` : result.toFixed(2)+ "..";
+                operandOne = Number.isInteger(result) || typeof(result) == 'string' ? `${result}` : result.toPrecision(2);
                 operandTwo = '';
-                keyValue == '=' ? isOperatorPressed = false : operator = keyValue;
+                keyValue == '=' ? isOperatorClicked = false : operator = keyValue;
             }
             display.textContent = operandOne;
         }
         if(operandOne.length > 0){
-            isOperatorPressed = true;
+            isOperatorClicked = true;
             if(keyValue == '='){
-                isOperatorPressed = false;
+                isOperatorClicked = false;
             }else {
                 display.textContent += ` ${keyValue} `;
             }    
             operator = keyValue;
         }
     }
-    
+
     if(nums.includes(keyValue)){
-        if(isOperatorPressed){
+        if(isOperatorClicked){
+            if(keyValue == '.' && operandTwo.includes('.')) return;
             operandTwo += keyValue;
             display.textContent += keyValue;
         }else {
             operator == '=' ? clear() : '';
+            if(operandOne.includes('.') && (keyValue == '.')) return;
             operandOne += keyValue;
             display.textContent += keyValue;
         }
@@ -95,5 +97,5 @@ const clear = function(){
     operator = '';
     operandTwo = '';
     display.textContent = '';
-    isOperatorPressed = false;
+    isOperatorClicked = false;
 }
