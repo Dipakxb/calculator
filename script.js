@@ -39,7 +39,7 @@ const keyArr = [['C','clear'], ['%', 'percent'], ["←", 'back'],
 for(let key of keyArr){
     let button = document.createElement('div');
     if(typeof(key) == 'object'){
-        button.className = `${key[1]}-button`;
+        button.className = `button-${key[1]}`;
         button.innerText = `${key[0]}`;
     }else{
         button.className = `button-${key}`;
@@ -79,15 +79,18 @@ keys.addEventListener('click', (e)=> {
     }
 
     if(nums.includes(keyValue)){
+        if((operandOne.includes('%') || operandTwo.includes('%')) && keyValue == '%') return;
         if(isOperatorClicked){
             if(keyValue == '.' && operandTwo.includes('.')) return;
-            operandTwo += keyValue;
-            display.textContent += keyValue;
+            if(operandTwo.includes('%')) return;
+            operandTwo = keyValue == '%' ? `${operandTwo /= 100}` : operandTwo += keyValue;
+            display.textContent = `${operandOne} ${operator} ${operandTwo}`;    
         }else {
             operator == '=' ? clear() : '';
+            if(operandOne.includes('%')) return;
             if(operandOne.includes('.') && (keyValue == '.')) return;
-            operandOne += keyValue;
-            display.textContent += keyValue;
+            operandOne = keyValue == '%' ? `${operandOne /= 100}` : operandOne += keyValue;
+            display.textContent = operandOne;
         }
     }
 })
