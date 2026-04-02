@@ -109,8 +109,10 @@ document.addEventListener('keydown', e => {
     if(keyValue == '/') keyValue = '÷';
     if(keyValue == '*') keyValue = '×';
     if(keyValue == 'Enter') keyValue = '=';
+    if(keyValue == 'Backspace') keyValue = '←';
+
     if(nums.includes(keyValue) || operatorArr.includes(keyValue) || keyValue == 'C'){
-        for(let key of keyArr){
+        keyArr.map(key =>{
             if(typeof(key) == 'object' && key[0] == keyValue){
                 let button = document.querySelector(`.button-${key[1]}`);
                 button.click();
@@ -118,7 +120,7 @@ document.addEventListener('keydown', e => {
                 let button = document.querySelector(`.button-${parseInt(keyValue)}`);
                 button.click();
             }
-        }
+        })
     }
 })
 
