@@ -52,7 +52,7 @@ let isOperatorClicked = false;
 const display = document.querySelector('.display');
 //function to update number variable
 keys.addEventListener('click', (e)=> {
-    const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.', '%'];
+    const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.', '%', '←'];
     const operatorArr = ['+', '-', '×', '÷', '='];
     const keyValue = e.target.innerText;
 
@@ -79,17 +79,24 @@ keys.addEventListener('click', (e)=> {
     }
 
     if(nums.includes(keyValue)){
+        if((isOperatorClicked && keyValue == '←') && operandTwo == '') {
+            operandOne += operator;
+            operator = "";
+            isOperatorClicked = false;
+        } 
         if((operandOne.includes('%') || operandTwo.includes('%')) && keyValue == '%') return;
         if(isOperatorClicked){
             if(keyValue == '.' && operandTwo.includes('.')) return;
             if(operandTwo.includes('%')) return;
-            operandTwo = keyValue == '%' ? `${operandTwo /= 100}` : operandTwo += keyValue;
+            keyValue == '%' ? operandTwo = `${operandTwo /= 100}`: operandTwo += keyValue; 
+            if(keyValue == '←') operandTwo = operandTwo.slice(0, operandTwo.length - 2);
             display.textContent = `${operandOne} ${operator} ${operandTwo}`;    
         }else {
             operator == '=' ? clear() : '';
             if(operandOne.includes('%')) return;
             if(operandOne.includes('.') && (keyValue == '.')) return;
-            operandOne = keyValue == '%' ? `${operandOne /= 100}` : operandOne += keyValue;
+            keyValue == '%' ? operandOne = `${operandOne /= 100}` : operandOne += keyValue;
+            if(keyValue == '←') operandOne = operandOne.slice(0, operandOne.length - 2);
             display.textContent = operandOne;
         }
     }
