@@ -50,10 +50,11 @@ for(let key of keyArr){
 
 let isOperatorClicked = false;
 const display = document.querySelector('.display');
+const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.', '%', '←'];
+const operatorArr = ['+', '-', '×', '÷', '='];
+
 //function to update number variable
 keys.addEventListener('click', (e)=> {
-    const nums = ['1','2','3','4','5','6','7','8','9','0','00', '.', '%', '←'];
-    const operatorArr = ['+', '-', '×', '÷', '='];
     const keyValue = e.target.innerText;
 
     keyValue == 'C' ? clear() : '';
@@ -61,7 +62,7 @@ keys.addEventListener('click', (e)=> {
         if(isOperatorClicked){
             if(operandTwo.length > 0){
                 const result = operate(operandOne, operator, operandTwo);
-                operandOne = Number.isInteger(result) || typeof(result) == 'string' ? `${result}` : result.toPrecision(2);
+                operandOne = Number.isInteger(result) || typeof(result) == 'string' ? `${result}` : result.toFixed(2);
                 operandTwo = '';
                 keyValue == '=' ? isOperatorClicked = false : operator = keyValue;
             }
@@ -98,6 +99,25 @@ keys.addEventListener('click', (e)=> {
             keyValue == '%' ? operandOne = `${operandOne /= 100}` : operandOne += keyValue;
             if(keyValue == '←') operandOne = operandOne.slice(0, operandOne.length - 2);
             display.textContent = operandOne;
+        }
+    }
+})
+
+document.addEventListener('keydown', e => {
+    let keyValue = e.key;
+    if(keyValue == 'Escape') keyValue = 'C';
+    if(keyValue == '/') keyValue = '÷';
+    if(keyValue == '*') keyValue = '×';
+    if(keyValue == 'Enter') keyValue = '=';
+    if(nums.includes(keyValue) || operatorArr.includes(keyValue) || keyValue == 'C'){
+        for(let key of keyArr){
+            if(typeof(key) == 'object' && key[0] == keyValue){
+                let button = document.querySelector(`.button-${key[1]}`);
+                button.click();
+            }else if(key == parseInt(keyValue)){
+                let button = document.querySelector(`.button-${parseInt(keyValue)}`);
+                button.click();
+            }
         }
     }
 })
